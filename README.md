@@ -1,18 +1,18 @@
-<h1>*Purrfect Pages*</h3>
+<h1>Purrfect Pages</h3>
 
 ### **Anggota Kelompok E04**: 
 - [Arini Widya Pramesti](https://github.com/widyaprms) - 2206830271
 - [Alwan Takahashi Aditama](https://github.com/Ajiens) - 2206828853
 - [Nazwa Arifah Ikhsan](https://github.com/nazwaikhsan) - 2206082625
 - [Mahira Irgiani](https://github.com/mahirairgn) - 2206027375
-- [Prasetyo Adi Wijonarko](https://github.com/prasetyoadii) - 2206830248
+- [Prasetyo Adi Wijonarko](https://github.com/prasetyoadii) - 2206830246
 <hr>
 
 ### **Tautan Link Repository Github:**
 https://github.com/Ajiens/Perpustakaan.git
 <hr>
 
-### **About Aplikasi:***
+### **About Aplikasi:**
 Meliputi:
 - **Latar Belakang**<br>
 Di era digital ini, perpustakaan harus mengikuti perkembangan teknologi agar dapat memenuhi kebutuhan penggunanya yang semakin banyak dan beragam. Semua kalangan, mulai dari siswa, mahasiswa, guru, hingga masyarakat umum, telah terbiasa dengan kemudahan akses informasi melalui internet dan aplikasi. Kami memahami bahwa untuk mempertahankan relevansinya, perpustakaan fisik perlu berinovasi dan menyediakan solusi yang memadai. Kami melihat adanya kebutuhan mendesak untuk mengembangkan aplikasi peminjaman buku agar perpustakaan dapat mengelola peminjaman dengan lebih efisien. Aplikasi ini tidak hanya menyederhanakan proses peminjaman buku, tetapi juga memastikan bahwa pengguna dapat mencari buku dengan mudah, memeriksa ketersediaan, dan melakukan peminjaman buku.
@@ -47,7 +47,7 @@ https://www.kaggle.com/datasets/austinreese/goodreads-books
 
 ### **Role Pengguna Aplikasi:**
 **Karyawan**
-- Add Member (untuk memberikan promo kepada pelanggan yang terdaftar sebagai *member*)
+- *Add Member* (untuk memberikan promo kepada pelanggan yang terdaftar sebagai *member*)
 - Katalog Buku (untuk menambahkan dan menghapus buku pada katalog, serta memeriksa ketersedian stok buku) <br>
 
 
