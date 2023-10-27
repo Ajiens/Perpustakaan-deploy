@@ -1,8 +1,195 @@
 {% extends 'base.html' %}
 
 {% block meta %}
-    <title>Login</title>
-
-    <h1>Tes</h1>
+    <title>Katalog Buku</title>
 {% endblock meta %}
-  
+
+{% block content %}
+<style>
+    /* CSS untuk navbar */
+    .navbar {
+        background-color: pink;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar-brand {
+        font-size: 1.5rem;
+        color: white;
+        text-decoration: none;
+    }
+
+    .navbar-links {
+        list-style-type: none;
+        display: flex;
+    }
+
+    .navbar-links li {
+        margin-right: 1rem;
+    }
+
+    .navbar-links li a {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+    }
+
+    /* CSS untuk katalog buku */
+    #product_content {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: start;
+        gap: 1rem;
+        padding: 1rem;
+        justify-content: space-between;
+        background-color: rgb(253, 220, 226);
+    }
+
+    .card {
+        flex: 0 0 23%;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .card img {
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1rem;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .card-author {
+        font-size: 15px;
+        color: gray;
+    }
+
+    .card-rating {
+        color: black;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-top: auto;
+        margin-right: 5px;
+    }
+
+    .btn-primary {
+        background-color: rgb(105, 105, 249);
+        color: white;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        width: 100%; 
+        padding: 0.5rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        margin-top: auto; 
+    }
+
+    /* CSS untuk image rating star */
+    .rating-stars {
+        display: flex;
+        align-items: center; /* jangan diubah */
+        justify-content: flex-end; /* jangan diubah */
+        margin-top: 5px;
+    }
+
+    .star {
+        width: 15px; 
+        height: 30px; 
+        margin-bottom: 17px;
+        margin-right: 2px;
+    }
+</style>
+
+<div id="navbar" class="navbar">
+    <a href="#" class="navbar-brand">Purrfect Pages</a>
+    <ul class="navbar-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+</div>
+
+<div id="product_content" class="all-product d-flex flex-wrap align-content-start gap-4">
+</div>
+
+<script>
+    async function getBuku(){
+        return fetch("{% url 'deskripsi_buku:get_buku_json' %}").then((res) => res.json())
+    }
+
+    async function refreshBuku() {
+        document.getElementById("product_content").innerHTML = "";
+        const bukuList = await getBuku();  // Mengambil daftar buku dari server
+        console.log(bukuList);
+
+
+        bukuList.forEach((buku) => {
+            const htmlString = `
+                <div class="card" buku-id="${buku.id}" style="width: 18rem;">
+                    <img src="${buku.cover_link}" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">${buku.title}</h5>
+                        <p class="card-author">${buku.author}</p>
+                        <div class="rating-stars">
+                            <img class="star" src="https://png.pngtree.com/png-vector/20191031/ourlarge/pngtree-five-pointed-yellow-star-icon-cartoon-style-png-image_1915282.jpg" alt="star">
+                            <p class="card-rating">${buku.average_rating}</p>
+                        </div>
+                        <a href="#" class="btn btn-primary" style="width: 100%;">Pinjam Sekarang</a>
+                    </div>
+                </div>`;
+
+            document.getElementById("product_content").innerHTML += htmlString;
+        });
+    }
+
+    async function deskripsiProduct(){
+        const cardKatalogs = document.querySelectorAll('.card');
+        cardKatalogs.forEach((card) => {
+            card.addEventListener('click', function () {
+                const bukuID = this.getAttribute('buku-id');
+                console.log(bukuID); // Use console.log instead of print
+                window.location.href = `/deskripsi_buku/deskripsi/${bukuID}/`;
+            });
+        });
+    }
+    // window.onload = deskripsiProduct;
+
+    document.getElementById("product_content").onclick = deskripsiProduct
+
+
+refreshBuku();
+
+</script>
+{% endblock content %}
