@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Login</title>
+    
+{% endblock meta %}
+
+{% block content %}
+<!-- <style>
+.kontainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.kontainer-kiri{
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    display: flex; flex-flow: column wrap; align-content: center; justify-content: center;
+    gap: 15px;
+}
+
+.kontainer-kanan{
+    overflow-y: auto; 
+    display: flex; flex-direction: column;
+}
+.kontainer-kanan::-webkit-scrollbar, .kontainer-kiri::-webkit-scrollbar { width: 0; }
+</style> -->
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6 sticky-md-top overflow-y-auto">
+                <img class="card-img-top mb-5 mb-md-0" src="{{ book.cover_link }}" alt="..." style="width: 40vh;"/>
+                <div class="d-flex gap-3 mt-3">
+                    <button class="btn btn-outline-dark flex-fill" type="button">
+                        <i class="bi-cart-fill me-1"></i>
+                        Add to cart
+                    </button>
+                    <button class="btn btn-outline-dark flex-fill" type="button">
+                        <i class="bi-cart-fill me-1"></i>
+                        Add to Wishlist
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6 overflow-y-auto">
+                <h1 class="display-5 fw-bolder">{{ book.title }}</h1>
+                
+                <div class="fs-4 mb-1">{{ book.author }}</div>
+                <div  class="fs-6 fw-normal"> ISBN : {{book.isbn}}</div>
+                <div  class="fs-6 fw-normal">{{ book.number_of_pages }} halaman</div>
+                <div  class="fs-6 fw-normal"> Dipublikasikan pada {{ book.date_published }} </div>
+                <div class="fs-5 fw-medium">
+                    {% if book.average_rating >= 4 %}
+                        ★★★★☆
+                    {% elif book.average_rating >= 3 %}
+                        ★★★☆☆
+                    {% elif book.average_rating >= 2 %}
+                        ★★☆☆☆
+                    {% elif book.average_rating >= 1 %}
+                        ★☆☆☆☆
+                    {% else %}
+                        No rating available
+                    {% endif %}
+                    {{ book.average_rating }} <span class="fs-6 fw-normal">/ {{ book.rating_count }} ratings • {{book.review_count}} reviews</span>
+                </div>
+                <div class="fs-5 mb-5">
+                    <span class="text-decoration-line-through">$45.00</span>
+                    <span>Rp.{{ book.harga }}</span>
+                </div>
+                <p class="lead">{{ book.description }}</p>
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <div class="kontainer">
+    <div class="kontainer-kiri">
+        <img src="{{ book.cover_link }}" alt="" style="width: 75%;">
+        <p>Rp. {{ book.harga }}</p>
+        <button>Want to Read</button>
+    </div>
+    
+    <div class="kontainer-kanan">
+        <h4 class="judul-buku">{{ book.title }}</h4>
+        <p class="penulis-buku">{{ book.author }}</p>
+        <p class="deskripsi-buku">{{ book.description }}</p>
+    </div>
+</div> -->
+
+{% endblock content %}

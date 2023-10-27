@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+<div id="product_content" class="all-product d-flex flex-wrap align-content-start gap-4">
+</div>
+
+<script>
+    async function getBuku(){
+        return fetch("{% url 'deskripsi_buku:get_buku_json' %}").then((res) => res.json())
+    }
+
+    async function refreshBuku() {
+        document.getElementById("product_content").innerHTML = "";
+        const bukuList = await getBuku();  // Mengambil daftar buku dari server
+        console.log(bukuList);
+
+
+        bukuList.forEach((buku) => {
+            const htmlString = `
+                <div class="card" buku-id="${buku.id}" style="width: 18rem;">
+                    <img src="${buku.cover_link}" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">${buku.title}</h5>
+                        <p class="card-author">${buku.author}</p>
+                        <p class="card-rating">${buku.average_rating}</p>
+                        <a href="#" class="btn btn-primary" style="width: 100%;">Beli Sekarang</a>
+                    </div>
+                </div>`;
+
+            document.getElementById("product_content").innerHTML += htmlString;
+        });
+    }
+
+    async function deskripsiProduct(){
+        const cardKatalogs = document.querySelectorAll('.card');
+        cardKatalogs.forEach((card) => {
+            card.addEventListener('click', function () {
+                const bukuID = this.getAttribute('buku-id');
+                console.log(bukuID); // Use console.log instead of print
+                window.location.href = `/deskripsi_buku/deskripsi/${bukuID}/`;
+            });
+        });
+    }
+    // window.onload = deskripsiProduct;
+
+    document.getElementById("product_content").onclick = deskripsiProduct
+
+
+refreshBuku();
+
+</script>
+{% endblock content %}
