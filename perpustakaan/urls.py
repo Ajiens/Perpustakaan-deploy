@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/books/", include("book.urls")),
     path("deskripsi_buku/", include("deskripsi_buku.urls")),
+    path("main/",include("main.urls")),
 ]
