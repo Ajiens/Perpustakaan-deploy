@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <h1>Wishlist</h1>
+{% endblock meta %}
+
+{% block content %}
+    <ul>
+        {% for book in wishlist %}
+            <p>{{ book.wishlist.title }}</p>
+            <p>{{ book.wishlist.description }}</p>
+        {% endfor %}
+    </ul>
+{% endblock content %}
