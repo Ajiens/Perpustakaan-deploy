@@ -5,6 +5,7 @@ from book.models import Book
 from django.urls import reverse
 from django.http import HttpResponse
 from django.core import serializers
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -55,3 +56,23 @@ def show_xml_by_id(request, id):
 def show_json_by_id(request, id):
     data = Book.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def get_book_json(request):
+    book_item = Book.objects.all()
+    return HttpResponse(serializers.serialize('json', book_item))
+
+@csrf_exempt
+def add_book_ajax(request):
+    if request.method == 'POST':
+        title = request.POST.get("title")
+        cover_link = request.POST.get("cover_link")
+        author = request.POST.get("author")
+        harga = request.POST.get("harga")
+        user = request.user
+
+        new_book = Book(title=title, cover_link=cover_link, author=author, harga=harga, user=user)
+        new_book.save()
+
+        return HttpResponse(b"CREATED", status=201)
+
+    return HttpResponseNotFound()
