@@ -31,7 +31,7 @@
             <div class="col-md-6 sticky-md-top overflow-y-auto">
                 <img class="card-img-top mb-5 mb-md-0" src="{{ book.cover_link }}" alt="..." style="width: 40vh;"/>
                 <div class="d-flex gap-3 mt-3">
-                    <button class="btn btn-outline-dark flex-fill" type="button">
+                    <button id="pinjamBukuBtn" class="btn btn-outline-dark flex-fill" type="button" data-book-id="{{ book.id }}">
                         <i class="bi-cart-fill me-1"></i>
                         Add to cart
                     </button>
@@ -73,18 +73,21 @@
     </div>
 </section>
 
-<!-- <div class="kontainer">
-    <div class="kontainer-kiri">
-        <img src="{{ book.cover_link }}" alt="" style="width: 75%;">
-        <p>Rp. {{ book.harga }}</p>
-        <button>Want to Read</button>
-    </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Temukan tombol "Pinjam Buku" berdasarkan ID
+        const pinjamBukuBtn = document.getElementById("pinjamBukuBtn");
     
-    <div class="kontainer-kanan">
-        <h4 class="judul-buku">{{ book.title }}</h4>
-        <p class="penulis-buku">{{ book.author }}</p>
-        <p class="deskripsi-buku">{{ book.description }}</p>
-    </div>
-</div> -->
+        // Tambahkan event listener untuk meng-handle klik tombol
+        pinjamBukuBtn.addEventListener("click", function () {
+            // Dapatkan ID buku dari data atribut HTML
+            const bookId = pinjamBukuBtn.getAttribute("data-book-id");
+    
+            // Redirect pengguna ke halaman add_pinjam_buku.html dengan menyertakan parameter bookId
+            window.location.href = `/pinjam_buku/pinjam_buku/${bookId}/`;
+        });
+    });
+</script>
+
 
 {% endblock content %}

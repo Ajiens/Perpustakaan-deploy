@@ -9,6 +9,9 @@ from book.models import Book
 def show_main(request):
     return render(request, "main.html")
 
+def pelanggan_view(request):
+    return render(request, 'pelanggan.html')
+
 def show_json(request):
     data = Book.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
