@@ -21,6 +21,6 @@ from add_wishlist.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/books/", include("book.urls")),
-    path("deskripsi_buku/", include("deskripsi_buku.urls")),,
+    path("deskripsi_buku/", include("deskripsi_buku.urls")),
     path("wishlist/", include("add_wishlist.urls")),
 ]
