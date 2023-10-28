@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Login</title>
+    <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Nunito Sans:wght@400;700;800&display=swap"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+  />
+{% endblock meta %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img class="card-img-top mb-5 mb-md-0" src="{{ book.cover_link }}" alt="..." style="width: 40vh;"/>
+            <div class="d-flex align-items-center gap-2">
+                <div class="fs-2">★</div>
+                <div>
+                    <div class="fs-1 fw-medium">{{book.average_rating}} <span class="fs-6">/5.0</span></div>
+                </div>
+            </div>
+            <div>{{book.rating_count}} rating • {{book.review_count}} ulasan</div>
+            <div class="d-flex flex-column gap-1">
+                <div class="d-flex flex-row align-items-baseline gap-1">
+                    <p class="mb-0">★ 5</p>
+                    <div class="progress flex-fill" style="height: 10px;">
+                        <div id="rating-5" class="progress-bar" role="progressbar" style="width: 20%; height: 10px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="mb-0">{{book.five_star_ratings}}</p>
+                </div>
+
+                <div class="d-flex flex-row align-items-baseline gap-1">
+                    <p class="mb-0">★ 4</p>
+                    <div class="progress flex-fill" style="height: 10px;">
+                        <div id="rating-4" class="progress-bar" role="progressbar" style="width: 20%; height: 10px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="mb-0">{{book.four_star_ratings}}</p>
+                </div>
+
+                <div class="d-flex flex-row align-items-baseline gap-1">
+                    <p class="mb-0">★ 3</p>
+                    <div class="progress flex-fill" style="height: 10px;">
+                        <div id="rating-3" class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="mb-0">{{book.three_star_ratings}}</p>
+                </div>
+
+                <div class="d-flex flex-row align-items-baseline gap-1">
+                    <p class="mb-0">★ 2</p>
+                    <div class="progress flex-fill" style="height: 10px;">
+                        <div id="rating-2" class="progress-bar" role="progressbar" style="width: 20%; height: 10px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="mb-0">{{book.two_star_ratings}}</p>
+                </div>
+
+                <div class="d-flex flex-row align-items-baseline gap-1">
+                    <p class="mb-0">★ 1</p>
+                    <div class="progress flex-fill" style="height: 10px;">
+                        <div id="rating-1" class="progress-bar" role="progressbar" style="width: 20%; height: 10px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="mb-0">{{book.one_star_ratings}}</p>
+                </div>
+
+            </div>
+            <button class="btn btn-outline-dark flex-fill" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="bi-cart-fill me-1"></i>
+                Tambah Komentar Kamu
+            </button>
+        </div>
+        <div class="col-md-8">
+            <h2>Ulasan Pembaca</h2>
+            <p>Menampilkan 3 ulasan</p>
+            <div id="review-container" class="d-flex flex-column gap-3">
+                <!-- {% for review in reviews %}
+                {% if book.id == review.book_id %}
+                    <p class="fs-5 fw-medium mb-0">{{ review.user_id.username }} <span class="fw-normal" style="font-size: 13px;"> • diposting {{ review.date_added }}</span></p>
+                    <div class="fs-5 fw-medium mb-0">
+                        {% if review.rating_user >= 4 %}
+                            ★★★★☆
+                        {% elif review.rating_user >= 3 %}
+                            ★★★☆☆
+                        {% elif review.rating_user >= 2 %}
+                            ★★☆☆☆
+                        {% elif review.rating_user >= 1 %}
+                            ★☆☆☆☆
+                        {% else %}
+                            No rating available
+                        {% endif %}
+                    </div>
+                {% endif %}
+                <p class="mb-0">{{ review.komentar }}</p>
+            {% endfor %} -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Start Add Review Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Product</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form" onsubmit="return false;">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="rating" class="col-form-label">Rating</label>
+                        <input type="number" class="form-control" id="rating" name="rating"></input>
+                    </div>
+                    <div class="mb-3">
+                        <label for="komentar" class="col-form-label">Komentar:</label>
+                        <textarea class="form-control" id="komentar" name="komentar"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Tambahkan Review</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Add Review Modal -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- <div class="card p-3 d-flex gap-1">
+    <p class="fs-5 fw-medium mb-0">${review.user_id.username} <span class="fw-normal" style="font-size: 13px;"> • diposting ${review.date_added}</span></p>
+    <div class="fs-5 fw-medium mb-0">
+        ${getRatingStars(review.rating_user)}
+    </div>
+    <p class="mb-0">${review.komentar}</p>
+</div> -->
+
+<script>
+    updateRating()
+    refreshReview()
+
+    async function getBukuID() {
+        return $.ajax({
+            type: 'GET',
+            data: {'book_id':'{{book.id}}'},
+            url: '{% url "deskripsi_buku:get_buku_json_by_id" %}',
+            dataType: 'json'
+        });
+    }
+
+    async function getReview(){
+        return fetch("{% url 'deskripsi_buku:get_review' %}").then((res) => res.json())
+    }
+
+    async function refreshReview(){
+        document.getElementById("review-container").innerHTML = "";
+        const reviews = await getReview();
+        const buku = await getBukuID();
+        let htmlString =``;
+
+        reviews.forEach(review => {
+            if (buku.id == review.book_id){
+                htmlString +=` 
+                    <div class="card p-3 d-flex gap-1">
+                        <p class="fs-5 fw-medium mb-0">Eko<span class="fw-normal" style="font-size: 13px;"> • diposting ${review.date_added}</span></p>
+                            <div class="fs-5 fw-medium mb-0">
+                                ${getRatingStars(review.rating_user)}
+                            </div>
+                        <p class="mb-0">${ review.komentar }</p>
+                    </div>`
+            }
+        });
+        document.getElementById("review-container").innerHTML = htmlString;
+    }
+
+
+function getRatingStars(rating_user) {
+    if (rating_user >= 4) {
+        return "★★★★☆";
+    } else if (rating_user >= 3) {
+        return "★★★☆☆";
+    } else if (rating_user >= 2) {
+        return "★★☆☆☆";
+    } else if (rating_user >= 1) {
+        return "★☆☆☆☆";
+    } else {
+        return "No rating available";
+    }
+}
+
+    $(document).on('click', '#button_add', function(e) {
+        let data = new FormData();
+        data.append('rating', $('#rating').val());
+        data.append('komentar', $('#komentar').val());
+        data.append('buku_id', '{{book.id}}');
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        $.ajax({
+            type: 'POST',
+            url: '{% url "deskripsi_buku:add_review" %}',
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+        });
+        refreshReview();
+        updateRating();
+    })
+
+
+
+    function updateRating5(){ // Rating 5
+        let totalRating = parseInt("{{book.rating_count}}");
+        let rating5 = parseInt("{{book.five_star_ratings}}")
+        let persentase5 = (rating5/totalRating)*100
+
+        const progressBar5 = document.getElementById('rating-5');
+        progressBar5.style.width = persentase5 + '%';
+        
+        progressBar5.setAttribute('aria-valuenow', persentase5);
+    }
+
+    function updateRating4(){ // Rating 4
+        let totalRating = parseInt("{{book.rating_count}}");
+        let rating4 = parseInt("{{book.four_star_ratings}}")
+        let persentase4 = (rating4/totalRating)*100
+
+        const progressBar4 = document.getElementById('rating-4');
+        progressBar4.style.width = persentase4 + '%';
+        progressBar4.setAttribute('aria-valuenow', persentase4);
+    }
+
+    function updateRating3(){ // Rating 3
+        let totalRating = parseInt("{{book.rating_count}}");
+        let rating3 = parseInt("{{book.three_star_ratings}}")
+        let persentase3 = (rating3/totalRating)*100
+
+        const progressBar3 = document.getElementById('rating-3');
+        progressBar3.style.width = persentase3 + '%';
+        progressBar3.setAttribute('aria-valuenow', persentase3);
+    }
+    function updateRating2(){ // Rating 2
+        let totalRating = parseInt("{{book.rating_count}}");
+        let rating2 = parseInt("{{book.two_star_ratings}}")
+        let persentase2 = (rating2/totalRating)*100
+
+        const progressBar2 = document.getElementById('rating-2');
+        progressBar2.style.width = persentase2 + '%';
+        progressBar2.setAttribute('aria-valuenow', persentase2);
+    }
+    function updateRating1(){ // Rating 1
+        let totalRating = parseInt("{{book.rating_count}}");
+        let rating1 = parseInt("{{book.one_star_ratings}}")
+        let persentase1 = (rating1/totalRating)*100
+
+        const progressBar1 = document.getElementById('rating-1');
+        progressBar1.style.width = persentase1 + '%';
+        progressBar1.setAttribute('aria-valuenow', persentase1);
+    }
+
+    async function updateRating(){
+        updateRating5();updateRating4();updateRating3();updateRating2();updateRating1();
+    }
+
+    
+
+    // async function showReview(){
+
+    // }
+
+
+</script>
+
+{% endblock content %}

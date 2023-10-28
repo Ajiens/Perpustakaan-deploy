@@ -1,24 +1,12 @@
 from django.db import models
 
+from book.models import Book as Buku
+from django.contrib.auth.models import User
 # Create your models here.
 
-class Book(models.Model):
-    id = models.IntegerField(primary_key=True, blank=True)
-    title = models.TextField(null=True, blank=True)
-    cover_link = models.TextField(null=True, blank=True)
-    author = models.TextField(null=True, blank=True)
-    rating_count = models.IntegerField(null=True, blank=True)
-    review_count = models.IntegerField(null=True, blank=True)
-    average_rating =  models.FloatField(null=True, blank=True)
-    five_star_ratings =  models.IntegerField(null=True, blank=True)
-    four_star_ratings =  models.IntegerField(null=True, blank=True)
-    three_star_ratings =  models.IntegerField(null=True, blank=True)
-    two_star_ratings =  models.IntegerField(null=True, blank=True)
-    one_star_ratings =  models.IntegerField(null=True, blank=True)
-    number_of_pages =  models.IntegerField(null=True, blank=True)
-    date_published =  models.TextField(null=True, blank=True)
-    publisher =  models.TextField(null=True, blank=True)
-    isbn =  models.IntegerField(null=True, blank=True)
-    description =  models.TextField(null=True, blank=True)
-    harga =  models.IntegerField(null=True, blank=True)
-    
+class Review(models.Model):
+    book = models.ForeignKey(Buku, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    komentar = models.TextField()
+    rating_user = models.IntegerField()
+    date_added = models.DateField(auto_now_add=True)
