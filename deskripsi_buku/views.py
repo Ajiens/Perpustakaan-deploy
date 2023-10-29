@@ -16,10 +16,6 @@ def get_buku_json(request):
     books = Book.objects.values()  # Mengambil semua data buku dari database
     return JsonResponse(list(books), safe=False)  # Mengirimkan daftar buku sebagai JSON
 
-# def get_buku_json(request):
-#     book = Book.objects.values().get(pk=1)  # Mengambil satu objek Book sebagai kamus
-#     return JsonResponse(book, safe=False)
-
 def deskripsi_buku(request, id):
     book = Book.objects.values().get(pk=id)
     return render(request, 'deskripsi.html', {'book':book})

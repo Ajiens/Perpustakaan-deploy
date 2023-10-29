@@ -5,51 +5,165 @@
 {% endblock meta %}
 
 {% block content %}
-    <div class="content-container" style="margin: 10px;">
-        <h1>My Wishlist</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Rating</th>
-                    <th>Price</th>
-                    <th></th>
-                </tr>
-            </thead>
-        
-            {% for book in wishlist %}
-                <tr style="vertical-align: middle;">
-                    <td>
-                        <img src="{{ book.cover_link }}" alt="{{ book.title }}" style="width: 100px; height: 150px;">
-                        {{ book.title }}
-                    </td>
-                    <td>{{ book.author }}</td>
-                    <td>
-                        <img class="star" src="https://png.pngtree.com/png-vector/20191031/ourlarge/pngtree-five-pointed-yellow-star-icon-cartoon-style-png-image_1915282.jpg" 
-                            style="width: 15px; height: 15px; margin-bottom: 5px;">
-                        {{ book.average_rating }}
-                    </td>
-                    <td>Rp.{{ book.harga }}</td>
-                    <td class="button-container">
-                        <div class="button-container">
-                            <div class="button-group">
-                                <a href="{% url 'remove' book.id %}" class="btn btn-danger" style="width: 120px; font-weight: 600; margin-bottom: 5px;">
-                                    Remove
-                                </a>
-                            </div>
-                            <div class="button-group">
-                                <a href="{% url 'remove' book.id %}" class="btn btn-success" style="width: 120px; font-weight: 600;">
-                                    Add to Cart
-                                </a>
-                            </div>
-                        </div>                    
-                    </td>
-                </tr>
-            {% endfor %}
+    <link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
+    <div class="content-container" style="padding: 15px; padding-left: 20px;">
+        <h1 style ="margin-bottom: 10px;">My Wishlist</h1>
+        <table id="wishlist_table" style="border-collapse: collapse; width: 100%;">
         </table>
     </div>
-{% endblock content %}
 
-<style>
-</style>
+    <script>
+        async function getBooks() {
+            return fetch("{% url 'wishlist:get_books_json' %}").then((res) => res.json());
+        }
+
+        async function refreshBooks() {
+            document.getElementById("wishlist_table").innerHTML = "";
+            const bukuList = await getBooks();
+
+            const header_row = document.createElement("tr")
+            const title = header_row.insertCell(-1);
+            const author = header_row.insertCell(-1);
+            const rating = header_row.insertCell(-1);
+            const price = header_row.insertCell(-1);
+            const remove = header_row.insertCell(-1);
+
+            title.textContent = "Title";
+            title.width = "550px";
+            author.textContent = "Author";
+            author.width = "350px";
+            rating.textContent = "Rating";
+            rating.width = "100px";
+            price.textContent = "Price";
+            price.width = "100px";
+
+            header_row.style.fontWeight = "bold";
+            document.getElementById("wishlist_table").appendChild(header_row);
+
+
+            bukuList.forEach((item) => {       
+                const bookRow = document.createElement("tr");
+                const titleCell = bookRow.insertCell(-1);
+                const authorCell = bookRow.insertCell(-1);
+                const ratingCell = bookRow.insertCell(-1);
+                const priceCell = bookRow.insertCell(-1);
+                const actionCell = bookRow.insertCell(-1);
+
+                const titleImg = document.createElement("img");
+                titleImg.src = item.cover_link;
+                titleImg.style = "width: 100px; height: 150px; margin-right: 10px";
+                titleCell.style = "display: flex; align-items: center; font-weight: 600; max-width: title.width";
+                titleCell.appendChild(titleImg);
+                titleCell.appendChild(document.createTextNode(item.title));
+                titleCell.addEventListener("click", function() {
+                    redirect(item.id);
+                });
+
+                authorCell.textContent = item.author;
+                authorCell.style = "max-width: 150px; padding-right: 10px"
+
+                ratingCell.style = "flex-direction: row; margin-left: 10px;";
+                const ratingImg = document.createElement("img");
+                ratingImg.src = "https://i.pinimg.com/originals/98/4d/22/984d22fce5cae2c01473f4abe8063fd1.png";
+                ratingImg.style = "height: 15px; margin-bottom: 5px; margin-right: 3px"
+                ratingCell.appendChild(ratingImg);
+                ratingCell.appendChild(document.createTextNode(item.average_rating));
+
+                priceCell.textContent = `Rp.${item.harga}`;
+                priceCell.style = "max-width: 50px"
+
+                const removeButton = document.createElement("button");
+                removeButton.className = "btn btn-danger";
+                removeButton.textContent = "Remove";
+                removeButton.addEventListener("click", function() {
+                    handleRemoveBook(item.id);
+                });
+
+                actionCell.style.textAlign = "center";
+                actionCell.appendChild(removeButton);
+
+                document.getElementById("wishlist_table").appendChild(bookRow);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            refreshBooks();
+        });
+
+        function handleRemoveBook(bookId) {
+            fetch(`/wishlist/remove/${bookId}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    refreshBooks();
+                } else {
+                    console.error('Error removing book:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error removing book:', error);
+            });
+        }
+
+        function redirect(bookId) {
+            window.location.href = `/deskripsi_buku/deskripsi/${bookId}/`;
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f4f4f4;
+            padding: 10px;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        #wishlist_table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 15px;
+        }
+
+        #wishlist_table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+            padding: 10px;
+            text-align: left;
+        }
+
+        #wishlist_table td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        #wishlist_table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #wishlist_table tr:hover {
+            background-color: #ddd;
+        }
+
+        button.btn-danger {
+            background-color: #ff5757;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+
+        button.btn-danger:hover {
+            background-color: #ff0000;
+        }
+    </style>
+
+{% endblock content %}

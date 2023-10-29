@@ -75,15 +75,9 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Temukan tombol "Add to Wishlist" berdasarkan ID
         const addToWishlistBtn = document.getElementById("addToWishlistBtn");
-    
-        // Tambahkan event listener untuk meng-handle klik tombol
         addToWishlistBtn.addEventListener("click", function () {
-            // Dapatkan ID buku dari data atribut HTML
             const bookId = addToWishlistBtn.getAttribute("data-book-id");
-    
-            // Kirim permintaan AJAX ke server untuk menambahkan buku ke Wishlist
             fetch(`/wishlist/add/${bookId}/`)
                 .then(response => response.json())
                 .then(data => {
