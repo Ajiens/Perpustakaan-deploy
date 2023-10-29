@@ -193,7 +193,7 @@
                                 <p class="card-rating">${buku.average_rating}</p>
                             </div>
                         </div>
-                        <a href="#" class="btn btn-primary deskripsi-button" data-id="${buku.id}" style="width: 100%;">Lihat Deskripsi</a>
+                        <a href="#" class="btn btn-primary pinjam-button" data-id="${buku.id}" style="width: 100%;">Pinjam Sekarang</a>
                     </div>
                 </div>
             </div>`;
@@ -226,7 +226,7 @@
     }
 
     document.addEventListener("click", function(event) {
-        if (event.target.classList.contains("deskripsi-button")) {
+        if (event.target.classList.contains("pinjam-button")) {
             navigateToDeskripsi(event);
         }
     });
