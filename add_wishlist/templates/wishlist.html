@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>My Wishlist</title>
+{% endblock meta %}
+
+{% block content %}
+    <div class="content-container" style="margin: 10px;">
+        <h1>My Wishlist</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cover</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Rating</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+        
+            {% for book in wishlist %}
+                <tr>
+                    <td>
+                        <img src="{{ book.cover_link }}" alt="{{ book.title }}" style="width: 100px; height: 150px;">
+                    </td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>
+                        <img class="star" src="https://png.pngtree.com/png-vector/20191031/ourlarge/pngtree-five-pointed-yellow-star-icon-cartoon-style-png-image_1915282.jpg" 
+                            style="width: 15px; height: 15px; margin-bottom: 5px;">
+                        {{ book.average_rating }}
+                    </td>
+                    <td>Rp.{{ book.harga }}</td>
+                    <td class="button-container">
+                        <div class="button-container">
+                            <div class="button-group">
+                                <a href="{% url 'remove' book.id %}" class="btn btn-danger" style="width: 120px; font-weight: 600;">
+                                    Remove
+                                </a>
+                            </div>
+                            <div class="button-group">
+                                <a href="{% url 'remove' book.id %}" class="btn btn-success" style="width: 120px; margin-top: 5px; font-weight: 600;">
+                                    Add to Cart
+                                </a>
+                            </div>
+                        </div>                    
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock content %}
+
+<style>
+    .content-container {
+        background-color: #f2f2f2;
+        font-family: 'Nunito', sans-serif;
+        padding: 15px;
+        padding-left: 20px;
+        min-height: 100vh; /* Make it take up at least the full viewport height */
+        display: flex;
+        flex-direction: column; /* Allow the content to grow downward */
+    }
+</style>

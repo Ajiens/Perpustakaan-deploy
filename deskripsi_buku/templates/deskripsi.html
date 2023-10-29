@@ -6,24 +6,82 @@
 {% endblock meta %}
 
 {% block content %}
-<!-- <style>
-.kontainer {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
+<style>
+    #rating-review {
+        position: relative;
+        cursor: pointer;
+        overflow: hidden;
+    }
 
-.kontainer-kiri{
-    position: sticky; top: 0; height: 100vh; overflow-y: auto;
-    display: flex; flex-flow: column wrap; align-content: center; justify-content: center;
-    gap: 15px;
-}
+    #rating-review::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px; /* Tinggi garis bawah */
+        background-color: blue; /* Warna garis bawah */
+        transform: scaleX(0); /* Awalnya tidak terlihat */
+        transform-origin: left;
+        transition: transform 0.3s; /* Animasi lebar garis bawah */
+    }
 
-.kontainer-kanan{
-    overflow-y: auto; 
-    display: flex; flex-direction: column;
-}
-.kontainer-kanan::-webkit-scrollbar, .kontainer-kiri::-webkit-scrollbar { width: 0; }
-</style> -->
+    #rating-review:hover::before {
+        transform: scaleX(1); /* Lebar garis bawah saat dihover */
+    }
+
+    #rating-review::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Latar belakang gelap */
+        opacity: 0; /* Awalnya tidak terlihat */
+        transition: opacity 0.3s; /* Animasi latar belakang gelap */
+    }
+
+    #rating-review:hover::after {
+        opacity: 1; /* Latar belakang gelap saat dihover */
+    }
+</style>
+
+<nav class="navbar bg-body-tertiary d-flex justify-content-between">
+    <div class="navbar-menu d-flex justify-content-start align-items-center">
+        <div class="navbar-header position-relative d-flex justify-content-start align-items-center gap-3 mt-2 mb-2 me-3">
+            <a class="navbar-header-text text-decoration-none" href="{% url 'main:show_main' %}"><p class="fw-bold my-auto">Carousell PBP</p></a>
+        </div>
+        <div class="d-flex flex-row">
+            <a href="">
+                <button type="button" class="btn btn-light h-100">Data Product</button>
+            </a>
+            <a href="">
+                <button type="button" class="btn btn-light">Add Product</button>
+            </a>
+            <a href="">
+                <button type="button" class="btn btn-light">My Wishlist</button>
+            </a>
+            <a href="">
+                <button type="button" class="btn btn-light">My History</button>
+            </a>
+            
+        </div>
+    </div>
+
+    <div class="">
+        <li class="nav-item dropdown">
+            <button class="btn  dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <span id="navbar-user">Hallo, {{pengunjung.user.username}}</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="dropdown-item">Kelas {{class}}</li>
+                <li><a class="dropdown-item" href="">Edit Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'main:logout' %}">Logout</a></li>
+            </ul>
+        </li>
+    </div>
+</nav>
 
 <section class="py-5">
     <div class="container px-4 px-lg-5 my-5">
@@ -35,10 +93,10 @@
                         <i class="bi-cart-fill me-1"></i>
                         Add to cart
                     </button>
-                    <button class="btn btn-outline-dark flex-fill" type="button">
+                    <button id="addToWishlistBtn" class="btn btn-outline-dark flex-fill" type="button" data-book-id="{{ book.id }}">
                         <i class="bi-cart-fill me-1"></i>
                         Add to Wishlist
-                    </button>
+                    </button>                                      
                 </div>
             </div>
             <div class="col-md-6 overflow-y-auto">
@@ -48,7 +106,7 @@
                 <div  class="fs-6 fw-normal"> ISBN : {{book.isbn}}</div>
                 <div  class="fs-6 fw-normal">{{ book.number_of_pages }} halaman</div>
                 <div  class="fs-6 fw-normal"> Dipublikasikan pada {{ book.date_published }} </div>
-                <div class="fs-5 fw-medium">
+                <div class="fs-5 fw-medium" id="rating-review" style="cursor: pointer;">
                     {% if book.average_rating >= 4 %}
                         ★★★★☆
                     {% elif book.average_rating >= 3 %}
@@ -73,18 +131,35 @@
     </div>
 </section>
 
-<!-- <div class="kontainer">
-    <div class="kontainer-kiri">
-        <img src="{{ book.cover_link }}" alt="" style="width: 75%;">
-        <p>Rp. {{ book.harga }}</p>
-        <button>Want to Read</button>
-    </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Temukan tombol "Add to Wishlist" berdasarkan ID
+        const addToWishlistBtn = document.getElementById("addToWishlistBtn");
     
-    <div class="kontainer-kanan">
-        <h4 class="judul-buku">{{ book.title }}</h4>
-        <p class="penulis-buku">{{ book.author }}</p>
-        <p class="deskripsi-buku">{{ book.description }}</p>
-    </div>
-</div> -->
+        // Tambahkan event listener untuk meng-handle klik tombol
+        addToWishlistBtn.addEventListener("click", function () {
+            // Dapatkan ID buku dari data atribut HTML
+            const bookId = addToWishlistBtn.getAttribute("data-book-id");
+    
+            // Kirim permintaan AJAX ke server untuk menambahkan buku ke Wishlist
+            fetch(`/wishlist/add/${bookId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Book added to your Wishlist");
+                    } else {
+                        alert("Book is already in your Wishlist");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        });
+    });
 
+    document.getElementById("rating-review").addEventListener("click", function() {
+        // Redirect to the desired page when the div is clicked
+        window.location.href = 'review/';
+        });
+</script>
 {% endblock content %}
