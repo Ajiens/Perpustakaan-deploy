@@ -1,2 +1,44 @@
-<h1>BISMILLAH YA ALLAH BISA NGERJAIN TERUS DAPET A</h1>
-<h2>AAMINN</h2>
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+<nav class="navbar bg-body-tertiary d-flex justify-content-between">
+    <div class="navbar-menu d-flex justify-content-start align-items-center">
+        <div class="navbar-header position-relative d-flex justify-content-start align-items-center gap-3 mt-2 mb-2 me-3">
+            <a class="navbar-header-text text-decoration-none" href="{% url 'main:show_main' %}"><p class="fw-bold my-auto">Carousell PBP</p></a>
+        </div>
+        <div class="d-flex flex-row">
+            <a href="">
+                <button type="button" class="btn btn-light h-100">Data Product</button>
+            </a>
+            <a href="">
+                <button type="button" class="btn btn-light">Add Product</button>
+            </a>
+            <a href="">
+                <button type="button" class="btn btn-light">My Wishlist</button>
+            </a>
+            <a href="">
+                <button type="button" class="btn btn-light">My History</button>
+            </a>
+            
+        </div>
+    </div>
+
+    <div class="">
+        <li class="nav-item dropdown">
+            <button class="btn  dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <span id="navbar-user">Hallo, {{pengunjung.user.username}}</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="dropdown-item">Kelas {{class}}</li>
+                <li><a class="dropdown-item" href="">Edit Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'main:logout' %}">Logout</a></li>
+            </ul>
+        </li>
+    </div>
+</nav>
+
+{% endblock content %}

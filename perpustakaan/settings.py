@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'book',
     'deskripsi_buku',
     'add_wishlist',
+    'katalog_buku',
 ]
 
 MIDDLEWARE = [
