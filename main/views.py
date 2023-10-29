@@ -9,6 +9,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, JsonResponse
+from django.core import serializers
 from book.models import Book
 
 
@@ -51,3 +53,24 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+
+def pelanggan_view(request):
+    return render(request, 'pelanggan.html')
+
+def show_json(request):
+    data = Book.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def get_buku_json(request):
+    books = Book.objects.values()  # Mengambil semua data buku dari database
+    return JsonResponse(list(books), safe=False)  # Mengirimkan daftar buku sebagai JSON
+
+
+def deskripsi_buku(request, id):
+    book = Book.objects.values().get(pk=id)
+    return render(request, 'deskripsi.html', {'book':book})
+
+def get_buku_json_by_id(request, id):
+    book = Book.objects.values().get(pk=id)
+    return JsonResponse(book, safe=False)
