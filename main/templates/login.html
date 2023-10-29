@@ -6,28 +6,88 @@
 
 {% block content %}
 
-<div class = "login">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #512608;
+        color: white;
+        margin: 0;
+        padding: 0;
+    }
 
+    .login {
+        width: 300px;
+        padding: 20px;
+        margin: 0 auto;
+        background-color: #8B4513;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-top: 100px;
+    }
+
+    .login h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .login input[type="text"],
+    .login input[type="email"] {
+        width: calc(100% - 20px);
+        padding: 8px;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .login input[type="submit"] {
+        width: 30%;
+        background-color: #fff;
+        color: #512608;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .login input[type="submit"]:hover {
+        background-color: #512608;
+        color: white;
+    }
+
+    .login ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .login ul li {
+        margin-bottom: 10px;
+    }
+
+    .login a {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+</style>
+
+<div class="login">
     <h1>Login</h1>
 
     <form method="POST" action="">
         {% csrf_token %}
-        <table>
-            <tr>
-                <td>Username: </td>
-                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
-            </tr>
-                    
-            <tr>
-                <td>Email: </td>
-                <td><input type="email" name="email" placeholder="email" class="form-control"></td>
-            </tr>
+        <div>
+            <input type="text" name="username" placeholder="Username" required>
+        </div>
 
-            <tr>
-                <td></td>
-                <td><input class="btn login_btn" type="submit" value="Login"></td>
-            </tr>
-        </table>
+        <div>
+            <input type="email" name="email" placeholder="Email" required>
+        </div>
+
+        <div>
+            <input class="btn login_btn" type="submit" value="Login">
+        </div>
     </form>
 
     {% if messages %}
@@ -36,10 +96,9 @@
                 <li>{{ message }}</li>
             {% endfor %}
         </ul>
-    {% endif %}     
-        
-    Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
+    {% endif %}
 
+    <p>Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a></p>
 </div>
 
 {% endblock content %}
