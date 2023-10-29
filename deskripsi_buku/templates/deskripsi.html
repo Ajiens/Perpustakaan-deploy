@@ -93,10 +93,10 @@
                         <i class="bi-cart-fill me-1"></i>
                         Add to cart
                     </button>
-                    <button class="btn btn-outline-dark flex-fill" type="button">
+                    <button id="addToWishlistBtn" class="btn btn-outline-dark flex-fill" type="button" data-book-id="{{ book.id }}">
                         <i class="bi-cart-fill me-1"></i>
                         Add to Wishlist
-                    </button>
+                    </button>                                      
                 </div>
             </div>
             <div class="col-md-6 overflow-y-auto">
@@ -132,6 +132,31 @@
 </section>
 
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Temukan tombol "Add to Wishlist" berdasarkan ID
+        const addToWishlistBtn = document.getElementById("addToWishlistBtn");
+    
+        // Tambahkan event listener untuk meng-handle klik tombol
+        addToWishlistBtn.addEventListener("click", function () {
+            // Dapatkan ID buku dari data atribut HTML
+            const bookId = addToWishlistBtn.getAttribute("data-book-id");
+    
+            // Kirim permintaan AJAX ke server untuk menambahkan buku ke Wishlist
+            fetch(`/wishlist/add/${bookId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Book added to your Wishlist");
+                    } else {
+                        alert("Book is already in your Wishlist");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        });
+    });
+
     document.getElementById("rating-review").addEventListener("click", function() {
         // Redirect to the desired page when the div is clicked
         window.location.href = 'review/';

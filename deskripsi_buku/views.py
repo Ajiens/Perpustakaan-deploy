@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
 
-from pengunjung.models import Pengunjung
 from book.models import Book
 from deskripsi_buku.models import Review
 

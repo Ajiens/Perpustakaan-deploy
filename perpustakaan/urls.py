@@ -16,10 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from add_wishlist.views import *
 
 urlpatterns = [
     path('', include("main.urls")),
     path('admin/', admin.site.urls),
     path("api/books/", include("book.urls")),
     path("deskripsi_buku/", include("deskripsi_buku.urls")),
+    path("wishlist/", include("add_wishlist.urls")),
 ]
