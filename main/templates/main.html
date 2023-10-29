@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Welcome, please sign yourself in ^-^</h2>
+    <h2>Welcome to Purrfect Pages^-^</h2>
     <form method="post">
         {% csrf_token %}
         <div class="mb-3">
@@ -24,13 +24,24 @@
                 <option value="employee">Karyawan</option>
             </select>
         </div>
-        <div class="mb-3">
+        <div class="mb-3" id="status-field" style="display: none;">
             <label for="status" class="form-label">Status</label>
             <select class="form-select" id="status" name="status" required>
                 <option value="member">Member</option>
                 <option value="non_member">Non-Member</option>
             </select>
         </div>
+        <script>
+            document.getElementById('role').addEventListener('change', function() {
+                var statusField = document.getElementById('status-field');
+                if (this.value === 'customer') {
+                    statusField.style.display = 'block';
+                } else {
+                    statusField.style.display = 'none';
+                }
+            });
+        </script>
+        <button type="submit" class="btn btn-primary">Login</button>
     </form>
 </div>
 
