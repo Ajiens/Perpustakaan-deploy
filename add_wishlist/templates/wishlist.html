@@ -56,7 +56,7 @@
                 titleCell.appendChild(titleImg);
                 titleCell.appendChild(document.createTextNode(item.title));
                 titleCell.addEventListener("click", function() {
-                    redirect(item.id);
+                    redirect(item.pk);
                 });
 
                 authorCell.textContent = item.author;
@@ -76,7 +76,7 @@
                 removeButton.className = "btn btn-danger";
                 removeButton.textContent = "Remove";
                 removeButton.addEventListener("click", function() {
-                    handleRemoveBook(item.id);
+                    handleRemoveBook(item.pk);
                 });
 
                 actionCell.style.textAlign = "center";
@@ -112,7 +112,6 @@
 
     <style>
         body {
-            background-color: #f4f4f4;
             padding: 10px;
             font-family: 'Nunito', sans-serif;
         }
