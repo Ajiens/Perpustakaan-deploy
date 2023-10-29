@@ -9,8 +9,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-
-from pengunjung.models import Pengunjung
 from book.models import Book
 
 
