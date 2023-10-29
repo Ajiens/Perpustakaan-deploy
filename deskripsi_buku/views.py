@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, JsonResponse
 from django.core import serializers
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import redirect
 
 from pengunjung.models import Pengunjung
 from book.models import Book
@@ -24,10 +26,7 @@ def get_buku_json(request):
 #     return JsonResponse(book, safe=False)
 
 def deskripsi_buku(request, id):
-    print(request.user.id)
-    pengunjung = Pengunjung.objects.values().get(pengunjung_id=request.user.id)
     book = Book.objects.values().get(pk=id)
-    print(pengunjung, " + ")
     return render(request, 'deskripsi.html', {'book':book})
 
 def review_buku(request, id):
@@ -39,15 +38,24 @@ def review_buku(request, id):
     }
     return render(request, 'review.html', context)
 
+from django.http import JsonResponse
+
+
 @login_required(login_url='/login')
-@csrf_exempt
 def add_review_buku(request):
-    print(request.POST.get("komentar"), request.POST.get("rating"))
     if request.method == 'POST':
         komentar = request.POST.get("komentar")
         rating = request.POST.get("rating")
+        if (int(rating) > 5):
+            messages.error(request, 'Rating tidak boleh lebih dari 5.')
         user = request.user
-        book = Book.objects.get(pk=int(request.POST.get("buku_id")))
+        buku_id = int(request.POST.get("buku_id"))
+
+        try:
+            book = Book.objects.get(pk=buku_id)
+        except Book.DoesNotExist:
+            messages.error(request, 'Anda harus login terlebih dahulu sebelum menambahkan review')
+            return redirect('main:login')
 
         if int(rating) == 5:
             book.five_star_ratings += 1
@@ -60,20 +68,20 @@ def add_review_buku(request):
         elif int(rating) == 1:
             book.one_star_ratings += 1
         else:
-            return HttpResponseNotFound()
-        # ((Overall Rating * Total Rating) + new Rating) / (Total Rating + 1)
+            messages.error(request, 'Rating tidak boleh lebih dari 5.')
+
         new_rating = ((book.average_rating * book.rating_count) + int(rating)) / (book.rating_count + 1)
-        book.average_rating = round(new_rating,2)
+        book.average_rating = round(new_rating, 2)
         book.rating_count += 1
         book.save()
-         
 
         new_review = Review(book=book, user=user, rating_user=rating, komentar=komentar)
         new_review.save()
 
-        return HttpResponse(b"CREATED", status=201)
-    
-    return HttpResponseNotFound()
+        return messages.success(request, 'Review berhasil ditambahkan')
+
+    return JsonResponse({"message": "Metode HTTP tidak valid"}, status=405)
+
 
 def get_review(request):
     # review = Review.objects.values()

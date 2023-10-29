@@ -64,70 +64,37 @@
                     </div>
                     <p class="mb-0">{{book.one_star_ratings}}</p>
                 </div>
-
+                <div class="d-flex flex-column gap-2">
+                    <div class="input-group mt-3 mb-0">
+                        <label class="input-group-text" for="rating">Rating</label>
+                        <select class="form-select" id="rating">
+                            <option selected>Rating kamu</option>
+                            <option value="5">5</option>
+                            <option value="4">4</option>
+                            <option value="3">3</option>
+                            <option value="2">2</option>
+                            <option value="1">1</option>
+                        </select>
+                      </div>
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="review" style="height: 100px"></textarea>
+                        <label class="sticky-top" for="review">Komentar Kamu</label>
+                    </div>
+                    <button class="btn btn-outline-dark flex-fill mb-5" type="button" id="button_add">
+                        <i class="bi-cart-fill me-1"></i>
+                        Tambah Komentar Kamu
+                    </button>
+                </div>
             </div>
-            <button class="btn btn-outline-dark flex-fill" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="bi-cart-fill me-1"></i>
-                Tambah Komentar Kamu
-            </button>
         </div>
         <div class="col-md-8">
             <h2>Ulasan Pembaca</h2>
-            <p>Menampilkan 3 ulasan</p>
-            <div id="review-container" class="d-flex flex-column gap-3">
-                <!-- {% for review in reviews %}
-                {% if book.id == review.book_id %}
-                    <p class="fs-5 fw-medium mb-0">{{ review.user_id.username }} <span class="fw-normal" style="font-size: 13px;"> • diposting {{ review.date_added }}</span></p>
-                    <div class="fs-5 fw-medium mb-0">
-                        {% if review.rating_user >= 4 %}
-                            ★★★★☆
-                        {% elif review.rating_user >= 3 %}
-                            ★★★☆☆
-                        {% elif review.rating_user >= 2 %}
-                            ★★☆☆☆
-                        {% elif review.rating_user >= 1 %}
-                            ★☆☆☆☆
-                        {% else %}
-                            No rating available
-                        {% endif %}
-                    </div>
-                {% endif %}
-                <p class="mb-0">{{ review.komentar }}</p>
-            {% endfor %} -->
-            </div>
+            <div id="review-container" class="d-flex flex-column gap-3"> </div>
         </div>
     </div>
 </div>
 
-<!-- Start Add Review Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Product</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="form" onsubmit="return false;">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="rating" class="col-form-label">Rating</label>
-                        <input type="number" class="form-control" id="rating" name="rating"></input>
-                    </div>
-                    <div class="mb-3">
-                        <label for="komentar" class="col-form-label">Komentar:</label>
-                        <textarea class="form-control" id="komentar" name="komentar"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Tambahkan Review</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End Add Review Modal -->
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <!-- <div class="card p-3 d-flex gap-1">
@@ -156,8 +123,9 @@
     }
 
     async function refreshReview(){
-        document.getElementById("review-container").innerHTML = "";
+        document.getElementById("review-container").innerHTML = "Belum ada review";
         const reviews = await getReview();
+        console.log(reviews)
         const buku = await getBukuID();
         let htmlString =``;
 
@@ -165,7 +133,7 @@
             if (buku.id == review.book_id){
                 htmlString +=` 
                     <div class="card p-3 d-flex gap-1">
-                        <p class="fs-5 fw-medium mb-0">Eko<span class="fw-normal" style="font-size: 13px;"> • diposting ${review.date_added}</span></p>
+                        <p class="fs-5 fw-medium mb-0">User ID-${review.user_id}<span class="fw-normal" style="font-size: 13px;"> • diposting ${review.date_added}</span></p>
                             <div class="fs-5 fw-medium mb-0">
                                 ${getRatingStars(review.rating_user)}
                             </div>
@@ -173,42 +141,65 @@
                     </div>`
             }
         });
-        document.getElementById("review-container").innerHTML = htmlString;
+        if (htmlString.length != 0){
+            document.getElementById("review-container").innerHTML = htmlString;
+            }
+        
     }
 
 
-function getRatingStars(rating_user) {
-    if (rating_user >= 4) {
-        return "★★★★☆";
-    } else if (rating_user >= 3) {
-        return "★★★☆☆";
-    } else if (rating_user >= 2) {
-        return "★★☆☆☆";
-    } else if (rating_user >= 1) {
-        return "★☆☆☆☆";
-    } else {
-        return "No rating available";
+    function getRatingStars(rating_user) {
+        if (rating_user >= 4) {
+            return "★★★★☆";
+        } else if (rating_user >= 3) {
+            return "★★★☆☆";
+        } else if (rating_user >= 2) {
+            return "★★☆☆☆";
+        } else if (rating_user >= 1) {
+            return "★☆☆☆☆";
+        } else {
+            return "No rating available";
+        }
     }
-}
+
+    async function clearAllField(){
+        document.getElementById("button_add").addEventListener("click", function() {
+        document.getElementById("rating").value = "Rating kamu";
+        document.getElementById("review").value = "";
+});
+
+    }
 
     $(document).on('click', '#button_add', function(e) {
-        let data = new FormData();
-        data.append('rating', $('#rating').val());
-        data.append('komentar', $('#komentar').val());
-        data.append('buku_id', '{{book.id}}');
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        $.ajax({
-            type: 'POST',
-            url: '{% url "deskripsi_buku:add_review" %}',
-            data: data,
-            cache: false,
-            processData: false,
-            contentType: false,
-            enctype: 'multipart/form-data',
-        });
-        refreshReview();
-        updateRating();
-    })
+        const selectedRating = $('#rating').val();
+
+        // Memeriksa apakah rating telah dipilih
+
+        if (selectedRating && selectedRating !== "Rating kamu") {
+            let data = new FormData();
+            data.append('rating', selectedRating);
+            data.append('komentar', $('#review').val());
+            data.append('buku_id', '{{book.id}}');
+            data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            
+            $.ajax({
+                type: 'POST',
+                url: '{% url "deskripsi_buku:add_review" %}',
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+            });
+            clearAllField();
+            refreshReview();
+            updateRating();
+        } else {
+            // Tampilkan pesan kesalahan jika rating tidak dipilih
+            alert("Silakan masukan rating sebelum menambahkan komentar.");
+        }
+    });
+
 
 
 
