@@ -1,5 +1,5 @@
 import datetime
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, JsonResponse
 from django.core import serializers
@@ -25,7 +25,6 @@ def pinjam_buku(request, book_id):
         telephone_number = request.POST.get("telephone_number")
         email_address = request.POST.get("email_address")
         duration_days = request.POST.get("duration_days")
-
         if book.is_available and telephone_number and email_address and duration_days:
             borrow_date = datetime.date.today()  # Tanggal peminjaman
             duration_days = int(duration_days)  # Mengubah durasi peminjaman menjadi integer
@@ -35,10 +34,10 @@ def pinjam_buku(request, book_id):
 
             book.is_available = False
             book.save()
-            return JsonResponse({'status': 'success', 'message': 'Buku berhasil dipinjam.'}, status=201)
+            return redirect('main:show_main')
         else:
-            return JsonResponse({'status': 'error', 'message': 'Buku tidak tersedia untuk dipinjam atau informasi kontak tidak valid.'}, status=400)
-    return HttpResponseNotFound()
+            return JsonResponse({'status': 'error', 'message': 'Buku tidak tersedia untuk dipinjam'}, status=400)
+    return render (request,'pinjam_buku.html')
 
 
 def kembalikan_buku(request, borrow_id):
@@ -52,3 +51,14 @@ def kembalikan_buku(request, borrow_id):
     return HttpResponseRedirect(reverse('pinjam_buku:show_borrow'))
 
 
+def pinjam_buku_request(request, id):
+    book = Book.objects.values().get(pk=id)
+    return render(request, 'pinjam_buku.html', {'book':book})
+
+def get_borrow_json_by_id(request, id):
+    book = Borrow.objects.values().get(pk=id)
+    return JsonResponse(book, safe=False)
+
+def show_json(request):
+    data = Borrow.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")

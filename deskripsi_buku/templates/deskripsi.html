@@ -84,9 +84,12 @@
             const bookId = pinjamBukuBtn.getAttribute("data-book-id");
     
             // Redirect pengguna ke halaman add_pinjam_buku.html dengan menyertakan parameter bookId
-            window.location.href = `/pinjam_buku/pinjam_buku/${bookId}/`;
+            
+            const pinjamUrl = `/pinjam_buku/pinjam/${bookId}/`;
+            window.location.href = pinjamUrl;
         });
     });
+
 </script>
 
 
