@@ -74,5 +74,3 @@ def add_book_ajax(request):
         new_book.save()
 
         return HttpResponse(b"CREATED", status=201)
-
-    return HttpResponseNotFound()
