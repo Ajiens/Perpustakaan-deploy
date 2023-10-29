@@ -21,4 +21,5 @@ class Book(models.Model):
     isbn =  models.IntegerField(null=True, blank=True)
     description =  models.TextField(null=True, blank=True)
     harga =  models.IntegerField(null=True, blank=True)
+    is_available = models.BooleanField(default=True)
     
