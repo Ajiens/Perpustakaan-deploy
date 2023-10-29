@@ -13,22 +13,22 @@
         {% csrf_token %}
         <div class="mb-3">
             <label for="username" class="form-label" style="color: #8B4513; font-weight: bold;">Username</label>
-            <input type="text" class="form-control" id="username" name="username" required style="background-color: #FFF8DC; color: #8B4513; border: 2px solid #8B4513; border-radius: 5px; padding: 10px;">
+            <input type="text" class="form-control" id="username" name="username" required style="background-color: #FFF8DC; color: #8B4513; border: 2px solid #8B4513; border-radius: 10px; padding: 10px;">
         </div>
         <div class="mb-3">
             <label for="email" class="form-label" style="color: #8B4513; font-weight: bold;">Email</label>
-            <input type="email" class="form-control" id="email" name="email" required style="background-color: #FFF8DC; color: #8B4513; border: 2px solid #8B4513; border-radius: 5px; padding: 10px;">
+            <input type="email" class="form-control" id="email" name="email" required style="background-color: #FFF8DC; color: #8B4513; border: 2px solid #8B4513; border-radius: 10px; padding: 10px;">
         </div>
         <div class="mb-3">
             <label for="role" class="form-label" style="color: #8B4513; font-weight: bold;">Role</label>
-            <select class="form-select" id="role" name="role" required style="background-color: #FFF8DC; color: #8B4513; border: 2px solid #8B4513; border-radius: 5px; padding: 10px;">
+            <select class="form-select" id="role" name="role" required style="background-color: #FFF8DC; color: #8B4513; border: 2px solid #8B4513; border-radius: 10px; padding: 10px;">
                 <option value="customer">Pelanggan</option>
                 <option value="employee">Karyawan</option>
             </select>
         </div>
         <div class="mb-3" id="status-field" style="display: none;">
             <label for="status" class="form-label" style="color: #8B4513; font-weight: bold;">Status</label>
-            <select class="form-select" id="status" name="status" required style="background-color: #FFF8DC; color: #8B4513; border: 2px solid #8B4513; border-radius: 5px; padding: 10px;">
+            <select class="form-select" id="status" name="status" required style="background-color: #FFF8DC; color: #8B4513; border: 2px solid #8B4513; border-radius: 10px; padding: 10px;">
                 <option value="member">Member</option>
                 <option value="non_member">Non-Member</option>
             </select>
@@ -43,7 +43,7 @@
                 }
             });
         </script>
-        <button type="submit" class="btn btn-primary" style="background-color: #8B4513; border: none; border-radius: 5px; padding: 10px 20px; font-size: 18px; cursor: pointer;">Register</button>
+        <button type="submit" class="btn btn-primary" style="background-color: #8B4513; border: none; border-radius: 10px; padding: 10px 20px; font-size: 18px; cursor: pointer; color: #ffff;">Register</button>
     </form>
 </div>
 
