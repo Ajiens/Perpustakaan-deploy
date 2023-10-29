@@ -8,21 +8,13 @@
 <nav class="navbar bg-body-tertiary d-flex justify-content-between">
     <div class="navbar-menu d-flex justify-content-start align-items-center">
         <div class="navbar-header position-relative d-flex justify-content-start align-items-center gap-3 mt-2 mb-2 me-3">
-            <a class="navbar-header-text text-decoration-none" href="{% url 'main:show_main' %}"><p class="fw-bold my-auto">Carousell PBP</p></a>
+            <a id="home-button" class="navbar-header-text text-decoration-none"><p class="fw-bold my-auto">Carousell PBP</p></a>
         </div>
         <div class="d-flex flex-row">
-            <a href="">
                 <button type="button" class="btn btn-light h-100">Data Product</button>
-            </a>
-            <a href="">
                 <button type="button" class="btn btn-light">Add Product</button>
-            </a>
-            <a href="">
-                <button type="button" class="btn btn-light">My Wishlist</button>
-            </a>
-            <a href="">
+                <button id="button-wishlist" type="button" class="btn btn-light">My Wishlist</button>
                 <button type="button" class="btn btn-light">My History</button>
-            </a>
             
         </div>
     </div>
@@ -40,5 +32,18 @@
         </li>
     </div>
 </nav>
+
+<script>
+
+    document.getElementById("button-wishlist").addEventListener("click", function() {
+        window.location.href = `/wishlist`;
+    })
+
+    document.getElementById("home-button").addEventListener("click", function() {
+        window.location.href = `/katalog_buku`;
+    })
+
+
+</script>
 
 {% endblock content %}
