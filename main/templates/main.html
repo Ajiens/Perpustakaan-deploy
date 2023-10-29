@@ -1,2 +1,37 @@
-<h1>BISMILLAH YA ALLAH BISA NGERJAIN TERUS DAPET A</h1>
-<h2>AAMINN</h2>
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Add Member</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Welcome, please sign yourself in ^-^</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-select" id="role" name="role" required>
+                <option value="customer">Pelanggan</option>
+                <option value="employee">Karyawan</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-select" id="status" name="status" required>
+                <option value="member">Member</option>
+                <option value="non_member">Non-Member</option>
+            </select>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}
