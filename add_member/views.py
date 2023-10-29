@@ -93,4 +93,4 @@ def add_member(request):
         'form': form,
     }
 
-    return render(request, 'add_member/add_member_form.html', context)
+    return render(request, 'register.html', context)
