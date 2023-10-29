@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'add_wishlist',
     'katalog_buku',
     'pinjam_buku',
+    'add_member',
 ]
 
 MIDDLEWARE = [
