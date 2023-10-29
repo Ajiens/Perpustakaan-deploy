@@ -169,16 +169,30 @@
         margin-right: 2px;
     }
 
+    .logout-button {
+        background-color: rgb(253, 100, 125);
+        color: white;
+        border: none;
+        font-size: 12px;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-weight: bold;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+
+    }
+
     
 </style>
 
 <div id="navbar" class="navbar">
     <a href="#" class="navbar-brand">Purrfect Pages</a>
     <ul class="navbar-links">
-        <li><a href="{% url 'katalog_buku:add_book' %}">History</a></li>
-        <li><a href="{% url 'katalog_buku:add_book' %}">My Wishlist</a></li>
-        <li><a href="{% url 'katalog_buku:add_book' %}">Logout</a></li>
-
+        <li><a href="#">History</a></li>
+        <li><a href="{% url 'wishlist' %}">My Wishlist</a></li>
+        <div class="btn-logout">
+            <div class="logout-button">Logout</div>
+        </div>
     </ul>
 </div>
 
@@ -248,5 +262,17 @@
         }
     });
 
+
+    function navigateToLandingPage(event) {
+        event.preventDefault();
+        const bukuID = event.target.getAttribute("data-id");
+        window.location.href = `/localhost/logout/`;
+    }
+
+    document.addEventListener("click", function(event) {
+        if (event.target.classList.contains("logout-button")) {
+            navigateToLandingPage(event);
+        }
+    });
 </script>
 {% endblock content %}
