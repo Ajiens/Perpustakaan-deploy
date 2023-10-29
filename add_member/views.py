@@ -23,7 +23,7 @@ def karyawan_view(request):
 
         return render(request, 'add_member/karyawan.html', context)
     except Member.DoesNotExist:
-        # Pengguna bukan karyawan atau tidak ada objek Member dengan peran 'employee'
+        # Pengguna bukan karyawan atau tidak ada Member dengan peran 'employee'
         return render(request, 'add_member/error.html', {'error_message': 'Anda tidak memiliki akses sebagai karyawan.'})
 
 @login_required
