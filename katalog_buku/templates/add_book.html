@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-color: pink;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    h1 { /* ini bisa diapus klo gajadi pake gambar meong */
+        margin-left: 500px;
+        margin-top: 40px;
+        margin-bottom: 10px;
+        color: black;
+        font-size: 30px;
+    }
+
+    form {
+        background-color: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: right;
+        margin-left: 500px; /* kalau mau ditengah ini diapus */
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    input[type="submit"] {
+        background-color: rgb(105, 105, 249);
+        color: white;
+        font-weight: bold;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    /* CSS untuk image kitten ini bisa diapus*/
+    .kitten-img {
+        display: flex;
+        align-items: center; 
+        margin-top: -180px;
+    }
+
+    .kitten {
+        width: 330px; 
+        height: 330px; 
+        margin-left: 30px;
+    }
+
+</style>
+
+<div class="form">
+    <h1>Add New Book</h1>
+
+    <form method="POST" id="add-book-form">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Title: </td>
+                <td><input type="text" name="title" placeholder="Title" class="form"></td>
+            </tr>
+            <tr>
+                <td>Cover Link: </td>
+                <td><input type="text" name="cover_link" placeholder="Link" class="form"></td>
+            </tr>
+            <tr>
+                <td>Author: </td>
+                <td><input type="text" name="author" placeholder="Author" class="form"></td>
+            </tr>
+            <tr>
+                <td>Harga: </td>
+                <td><input type="text" name="harga" placeholder="Harga" class="form"></td>
+            </tr>
+            <tr>
+                <td>
+                <td style="text-align: center;"><input type="submit" value="Add Book" id="add-book-button"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    
+    <div class="kitten-img"> 
+        <img class="kitten" src="https://png.pngtree.com/png-clipart/20230417/original/pngtree-cute-kitten-cartoon-png-image_9062557.png" alt="kitten">
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('add-book-form');
+    const addButton = document.getElementById('add-book-button');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        fetch('/your_add_book_url/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Tindakan selanjutnya setelah menambahkan buku
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+
+{% endblock %}

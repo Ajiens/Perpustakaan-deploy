@@ -25,8 +25,8 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            pengunjung = Pengunjung(pengunjung=user, is_member=False) # TODO Definisikan pengunjung sesuai modelsnya
-            pengunjung.save() #Simpan pengunjung
+            # pengunjung = Pengunjung(pengunjung=user, is_member=False) # TODO Definisikan pengunjung sesuai modelsnya
+            # pengunjung.save() #Simpan pengunjung
             messages.success(request, 'Your account has been successfully created!')
             return redirect('main:login')
     context = {'form':form}
