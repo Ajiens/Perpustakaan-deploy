@@ -21,6 +21,4 @@ from add_member.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/books/", include("book.urls")),
-    path("add_member/", include("add_member.urls")),
-    path("main/",include("main.urls")),
 ]
