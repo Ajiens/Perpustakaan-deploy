@@ -19,6 +19,7 @@
         font-size: 1.5rem;
         color: white;
         text-decoration: none;
+        font-weight: bold;
     }
 
     .navbar-links {
@@ -34,6 +35,21 @@
         text-decoration: none;
         color: white;
         font-weight: bold;
+    }
+
+    .btn-navbar {
+        background-color: rgb(242, 81, 137);
+        color: white;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        width: 100%; 
+        padding: 0.5rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        margin-top: auto; 
     }
 
     /* CSS untuk katalog buku */
@@ -159,9 +175,10 @@
 <div id="navbar" class="navbar">
     <a href="#" class="navbar-brand">Purrfect Pages</a>
     <ul class="navbar-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="{% url 'katalog_buku:add_book' %}">History</a></li>
+        <li><a href="{% url 'katalog_buku:add_book' %}">My Wishlist</a></li>
+        <li><a href="{% url 'katalog_buku:add_book' %}">Logout</a></li>
+
     </ul>
 </div>
 

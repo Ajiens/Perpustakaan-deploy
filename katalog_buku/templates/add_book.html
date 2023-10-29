@@ -12,16 +12,14 @@
     }
 
     h1 { 
-        margin-left: 500px;
-        margin-top: 40px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
         color: black;
         font-size: 30px;
     }
 
     form {
         background-color: white;
-        padding: 40px;
+        padding: 30px;
         border-radius: 10px;
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
         width: 600px;
@@ -66,11 +64,12 @@
 </style>
 
 <div class="form">
-    <h1>Add New Book</h1>
+    
 
     <form method="POST" id="add-book-form">
         {% csrf_token %}
         <table>
+            <h1>Add New Book</h1>
             <tr>
                 <td>Title: </td>
                 <td><input type="text" name="title" placeholder="Title" class="form"></td>
