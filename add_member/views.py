@@ -5,26 +5,26 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from .models import Member
-from book.models import Book, Borrow, Wishlist, Review
+from book.models import Book
 
 @login_required
 def karyawan_view(request):
     try:
         member = Member.objects.get(username=request.user.username, role='employee')
         pelanggan_list = Member.objects.filter(role='customer')
-        history_peminjaman = Borrow.objects.all()
-        daftar_wishlist = Wishlist.objects.all()
+        # history_peminjaman = Borrow.objects.all()
+        # daftar_wishlist = Wishlist.objects.all()
 
         context = {
             'pelanggan_list': pelanggan_list,
-            'history_peminjaman': history_peminjaman,
-            'daftar_wishlist': daftar_wishlist,
+            # 'history_peminjaman': history_peminjaman,
+            # 'daftar_wishlist': daftar_wishlist,
         }
 
-        return render(request, 'add_member/karyawan.html', context)
+        return render(request, 'karyawan.html', context)
     except Member.DoesNotExist:
         # Pengguna bukan karyawan atau tidak ada Member dengan peran 'employee'
-        return render(request, 'add_member/error.html', {'error_message': 'Anda tidak memiliki akses sebagai karyawan.'})
+        return render(request, 'error.html', {'error_message': 'Anda tidak memiliki akses sebagai karyawan.'})
 
 @login_required
 def pelanggan_view(request):
@@ -72,3 +72,25 @@ def pelanggan_view(request):
         return render(request, 'add_member/pelanggan.html', context)
     except Member.DoesNotExist:
         return render(request, 'add_member/error.html', {'error_message': 'Anda tidak memiliki akses sebagai pelanggan.'})
+
+def add_member(request):
+    if request.method == 'POST':
+        form = MemberForm(request.POST)
+        if form.is_valid():
+            new_member = form.save(commit=False)
+            new_member.username = form.cleaned_data['username']
+            new_member.email = form.cleaned_data['email']
+            new_member.role = form.cleaned_data['role']
+            new_member.save()
+            messages.success(request, 'Anggota berhasil ditambahkan.')
+            return redirect('add_member:add-member')  # Ganti 'add-member' dengan nama URL yang sesuai
+        else:
+            messages.error(request, 'Form tidak valid. Harap periksa kembali isian Anda.')
+    else:
+        form = MemberForm()
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'add_member/add_member_form.html', context)
