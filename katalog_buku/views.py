@@ -24,7 +24,7 @@ def show_main(request):
     #   main = main2.html
     # }
 
-    return render(request, "main1.html", context)
+    return render(request, "main2.html", context)
 
 
 def add_book(request):
