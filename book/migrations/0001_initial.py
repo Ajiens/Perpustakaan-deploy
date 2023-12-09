@@ -32,6 +32,7 @@ class Migration(migrations.Migration):
                 ('isbn', models.IntegerField(blank=True, null=True)),
                 ('description', models.TextField(blank=True, null=True)),
                 ('harga', models.IntegerField(blank=True, null=True)),
+                ('is_available', models.BooleanField(default=True)),
             ],
         ),
     ]
