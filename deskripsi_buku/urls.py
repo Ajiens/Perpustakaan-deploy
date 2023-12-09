@@ -12,4 +12,5 @@ urlpatterns =[
     path('deskripsi/<int:id>/review/', review_buku, name="rating_buku"),
     path('deskripsi/add_review/', add_review_buku, name="add_review"),
     path('get_review/', get_review, name="get_review"),
+    path('create-review-flutter/', add_review_flutter, name='create-review-flutter')
 ]

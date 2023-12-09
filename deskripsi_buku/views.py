@@ -35,6 +35,45 @@ def review_buku(request, id):
 
 from django.http import JsonResponse
 
+@csrf_exempt
+def add_review_flutter(request):
+    if request.method == 'POST':
+        komentar = request.POST.get("komentar")
+        rating = request.POST.get("rating")
+        if (int(rating) > 5):
+            return JsonResponse({"status": "error"}, status=401)
+        user = request.user
+        buku_id = int(request.POST.get("buku_id"))
+
+        try:
+            book = Book.objects.get(pk=buku_id)
+        except Book.DoesNotExist:
+            return JsonResponse({"status": "error"}, status=401)
+
+        if int(rating) == 5:
+            book.five_star_ratings += 1
+        elif int(rating) == 4:
+            book.four_star_ratings += 1
+        elif int(rating) == 3:
+            book.three_star_ratings += 1
+        elif int(rating) == 2:
+            book.two_star_ratings += 1
+        elif int(rating) == 1:
+            book.one_star_ratings += 1
+        else:
+            messages.error(request, 'Rating tidak boleh lebih dari 5.')
+
+        new_rating = ((book.average_rating * book.rating_count) + int(rating)) / (book.rating_count + 1)
+        book.average_rating = round(new_rating, 2)
+        book.rating_count += 1
+        book.save()
+
+        new_review = Review(book=book, user=user, rating_user=rating, komentar=komentar)
+        new_review.save()
+
+        return JsonResponse({"status": "succes"}, status=200)
+
+    return JsonResponse({"status": "error"}, status=401)
 
 @login_required(login_url='/login')
 def add_review_buku(request):
